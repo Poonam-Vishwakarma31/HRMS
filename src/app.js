@@ -1,16 +1,29 @@
 import express, { json } from 'express';
 import router from './routes/auth.routes.js'
 import dotenv from "dotenv";
+import {connectToDB} from './db/connection.js'
 
 dotenv.config();
 
 const app= express();
-const Port= 5000;
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/api/v1",router);
+app.use("/api/auth",router);
 
-app.listen(Port,()=>{
-    console.log(`Server is running on localhost:5000`)
-})
+
+async function run() {
+    try {
+        await connectToDB()
+        const PORT= process.env.PORT || " ";
+        app.listen(PORT,()=>{
+    console.log(`Server is running on localhost:5000`)})
+    } catch (error) {
+        console.log(error)
+        process.exit(1)
+    }
+    
+}
+
+run()
