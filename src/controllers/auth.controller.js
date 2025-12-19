@@ -13,7 +13,7 @@ const handelUnexpectedError = (req, res, error, functionName) => {
 
 export const signup = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
     if (!ValidateFields(name, email, password)) {
       return res
         .status(422)
