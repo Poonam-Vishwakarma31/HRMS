@@ -1,5 +1,5 @@
 import express, { json } from 'express';
-import router from './routes/auth.routes.js'
+import router from './modules/auth/auth.routes.js'
 import dotenv from "dotenv";
 import {connectToDB} from './db/connection.js'
 

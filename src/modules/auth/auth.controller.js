@@ -1,6 +1,6 @@
-import User from "../models/User.model.js";
-import { createToken } from "./jwt.js";
-import { ValidateFields } from "../utils/validation.js";
+import User from "../model/User.model.js";
+import { createToken } from "./token.service.js";
+import { ValidateFields } from "../../utils/validation.js";
 
 
 const handelUnexpectedError = (req, res, error, functionName) => {
@@ -53,7 +53,7 @@ export const login = async (req, res) => {
     // Generate JWT
     const token= createToken(existingUser.id, existingUser.email, role)
 
-    return res.status(200).json({token})
+    return res.status(200).json({token, existingUser})
 
   } catch (error) {
     return handelUnexpectedError(req, res, error, login.name);
