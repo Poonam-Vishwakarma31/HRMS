@@ -1,6 +1,6 @@
 
 
-import { PERMISSIONS } from "./permissions.js";
+import { PERMISSIONS } from "./permission.js";
 
 export const ROLE_PERMISSIONS = {
   admin: [
