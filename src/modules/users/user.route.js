@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { verifyToken } from "../../middleware/authenticate.js";
+import { PERMISSIONS } from "../../config/permission.js";
 import { authorizePermissions } from "../../middleware/authorizePermission.js";
 import { authorizeOwnership } from "../../middleware/authorize.ownership.js";
 
