@@ -7,7 +7,7 @@ export const authorizePermissions = (...requiredPermissions) => {
     }
 
     // Check all required permissions
-    const hasAllPermissions = requiredPermissions.every(permission =>
+    const hasAllPermissions = requiredPermissions.some(permission =>
       req.user.permissions.includes(permission)
     );
 
