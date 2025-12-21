@@ -1,6 +1,7 @@
 import express, { json } from 'express';
 import authRouter from './modules/auth/auth.routes.js'
 import userRouter from './modules/users/user.route.js';
+import leaveRouter from './modules/leave/leave.routes.js';
 import dotenv from "dotenv";
 import {connectToDB} from './db/connection.js'
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth",authRouter);
 app.use('/api/users',userRouter);
+app.use("/api/leave",leaveRouter);
 
 
 async function run() {
