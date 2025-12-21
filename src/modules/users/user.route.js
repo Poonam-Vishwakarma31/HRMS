@@ -3,6 +3,7 @@ import { verifyToken } from "../../middleware/authenticate.js";
 import { PERMISSIONS } from "../../config/permission.js";
 import { authorizePermissions } from "../../middleware/authorizePermission.js";
 import { authorizeOwnership } from "../../middleware/authorize.ownership.js";
+import User from "../model/User.model.js";
 
 import { getAllUsers, getMyProfile, updateUser, deleteUser } from "./user.controller.js";
 
