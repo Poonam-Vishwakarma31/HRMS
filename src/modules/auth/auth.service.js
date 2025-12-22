@@ -3,9 +3,16 @@ import { createToken } from "./token.service.js";
 import { ValidateFields } from "../../utils/validation.js";
 
 // register service
-export const registerService = async ({ name, email, password, role }) => {
-  if (!ValidateFields(name, email, password)) {
-    throw { status: 422, message: "One or more fields are invalid" };
+export const registerService = async ({
+  name,
+  email,
+  password,
+  role,
+  managerId,
+  createdBy,
+}) => {
+  if (!ValidateFields(name, email, password, role)) {
+    throw { status: 422, message: "Invalid input" };
   }
 
   const existingUser = await User.findOne({ email });
@@ -13,10 +20,57 @@ export const registerService = async ({ name, email, password, role }) => {
     throw { status: 409, message: "User already exists" };
   }
 
-  const user = new User({ name, email, password, role });
-  await user.save();
+  //  Role rules
+  if (role === "admin" && createdBy.role !== "admin") {
+    throw { status: 403, message: "Only admin can create admin" };
+  }
+
+  //  Manager rule
+  if (role === "employee" && !managerId) {
+    throw { status: 422, message: "Employee must have a manager" };
+  }
+
+  if (["admin", "HR"].includes(role) && managerId) {
+    throw { status: 400, message: "Admin/HR cannot have a manager" };
+  }
+
+  const user = await User.create({
+    name,
+    email,
+    password,
+    role,
+    managerId: role === "employee" ? managerId : null,
+  });
+
   return user;
 };
+
+// Assign manager to employee
+export const assignManagerService = async ({ employeeId, managerId }) => {
+  const employee = await User.findById(employeeId);
+  if (!employee) {
+    throw { status: 404, message: "Employee not found" };
+  }
+
+  if (employee.role !== "employee") {
+    throw { status: 400, message: "Only employees can have managers" };
+  }
+
+  const manager = await User.findById(managerId);
+  if (!manager) {
+    throw { status: 404, message: "Manager not found" };
+  }
+
+  if (manager.role !== "manager") {
+    throw { status: 400, message: "Assigned user is not a manager" };
+  }
+
+  employee.managerId = managerId;
+  await employee.save();
+
+  return employee;
+};
+
 
 // Login service
 export const loginService = async ({ email, password }) => {

@@ -1,4 +1,4 @@
-import { registerService, loginService } from "./auth.service.js";
+import { registerService, loginService, assignManagerService } from "./auth.service.js";
 
 const handelUnexpectedError = (req, res, error, functionName) => {
   console.error(`Error in ${functionName}:`, error);
@@ -10,12 +10,37 @@ const handelUnexpectedError = (req, res, error, functionName) => {
 // register controller
 export const register = async (req, res) => {
   try {
-    const user = await registerService(req.body);
-    res.status(201).json({ user });
-  } catch (error) {
-    handelUnexpectedError(req, res, error, register.name);
+    const user = await registerService({
+      ...req.body,
+      createdBy: req.user
+    });
+
+    res.status(201).json(user);
+  } catch (err) {
+    handleError(res, err);
   }
 };
+
+
+export const assignManager = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { managerId } = req.body;
+
+    const employee = await assignManagerService({
+      employeeId: id,
+      managerId
+    });
+
+    res.status(200).json({
+      message: "Manager assigned successfully",
+      employee
+    });
+  } catch (err) {
+    handleError(res, err);
+  }
+};
+
 
 // Login controller
 export const login = async (req, res) => {
