@@ -8,6 +8,9 @@ export const ROLE_PERMISSIONS = {
     PERMISSIONS.EMPLOYEE_READ_ALL,
     PERMISSIONS.EMPLOYEE_UPDATE_ALL,
 
+    //User create
+    PERMISSIONS.USER_CREATE,
+
 
     // Leave
     PERMISSIONS.LEAVE_VIEW_ALL,
@@ -22,6 +25,9 @@ export const ROLE_PERMISSIONS = {
   HR: [
     // Employee data
     PERMISSIONS.EMPLOYEE_READ_ALL,
+
+    //User create
+    PERMISSIONS.USER_CREATE,
 
    
 

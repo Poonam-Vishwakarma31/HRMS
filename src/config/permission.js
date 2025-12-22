@@ -7,6 +7,9 @@ export const PERMISSIONS = {
   EMPLOYEE_UPDATE_SELF: "employee:update:self",
   EMPLOYEE_UPDATE_ALL: "employee:update:all",
 
+  //User create
+  USER_CREATE: "user:create",
+
  
   // LEAVE REQUESTS 
   LEAVE_CREATE: "leave:create",
