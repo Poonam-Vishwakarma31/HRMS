@@ -1,29 +1,16 @@
 import Leave from "../model/leave.model.js";
-import AuditLog from "../model/auditlog.model.js"
+import { createAuditLog } from "../../infrastructure/Audit/audit.service.js";
+import { AUDIT_ACTIONS } from "../../infrastructure/Audit/audit.actions.js";
+
+
+
 import {
   ForbiddenError,
   BadRequestError,
   NotFoundError
 } from "../../utils/errors.js";
 
-//helper → write audit log
- 
-const logAudit = async ({
-  actorId,
-  action,
-  resourceId,
-  before,
-  after
-}) => {
-  await AuditLog.create({
-    actorId,
-    action,
-    resourceType: "Leave",
-    resourceId,
-    before,
-    after
-  });
-};
+
 
 // EMPLOYEE creates leave
 
@@ -39,12 +26,20 @@ export const createLeave = async ({ user, payload }) => {
     reason: payload.reason
   });
 
-  await logAudit({
-    actorId: user.id,
-    action: "LEAVE_CREATED",
-    resourceId: leave._id,
-    after: leave.toObject()
-  });
+  await createAuditLog({
+    actorId:user.id,
+    action: AUDIT_ACTIONS.LEAVE_CREATED,
+    targetId:leave._id,
+      meta: {
+      employeeId: leave.employeeId,
+      managerId: leave.managerId,
+      type: leave.type,
+      startDate: leave.startDate,
+      endDate: leave.endDate,
+      reason: leave.reason,
+      status: leave.status
+    }
+  })
 
   return leave;
 };
@@ -73,7 +68,7 @@ export const approveLeave = async ({ user, leaveId }) => {
   const leave = await Leave.findById(leaveId);
   if (!leave) throw new NotFoundError("Leave not found");
 
-  // authority check (not ownership)
+  // authority check 
   if (
     user.role !== "admin" &&
     String(user.id) !== String(leave.managerId)
@@ -85,20 +80,30 @@ export const approveLeave = async ({ user, leaveId }) => {
     throw new BadRequestError("Leave already processed");
   }
 
-  const before = leave.toObject();
+   const before = {
+    status: leave.status,
+    decidedBy: leave.decidedBy,
+    decidedAt: leave.decidedAt,
+  };
 
+ //Update leave
   leave.status = "APPROVED";
   leave.decidedBy = user.id;
   leave.decidedAt = new Date();
 
   await leave.save();
 
-  await logAudit({
+ // Audit log
+  await createAuditLog({
     actorId: user.id,
-    action: "LEAVE_APPROVED",
-    resourceId: leave._id,
+    action: AUDIT_ACTIONS.LEAVE_APPROVED,
+    targetId: leave._id,
     before,
-    after: leave.toObject()
+    after: {
+      status: leave.status,
+      decidedBy: leave.decidedBy,
+      decidedAt: leave.decidedAt,
+    },
   });
 
   return leave;
@@ -123,7 +128,11 @@ export const rejectLeave = async ({ user, leaveId, reason }) => {
     throw new BadRequestError("Leave already processed");
   }
 
-  const before = leave.toObject();
+   const before = {
+    status: leave.status,
+    decidedBy: leave.decidedBy,
+    decidedAt: leave.decidedAt,
+  };
 
   leave.status = "REJECTED";
   leave.decidedBy = user.id;
@@ -132,12 +141,18 @@ export const rejectLeave = async ({ user, leaveId, reason }) => {
 
   await leave.save();
 
-  await logAudit({
+ // Audit log
+  await createAuditLog({
     actorId: user.id,
-    action: "LEAVE_REJECTED",
-    resourceId: leave._id,
+    action: AUDIT_ACTIONS.LEAVE_REJECTED,
+    targetId: leave._id,
     before,
-    after: leave.toObject()
+    after: {
+      status: leave.status,
+      decidedBy: leave.decidedBy,
+      decidedAt: leave.decidedAt,
+      decisionReason:leave.decisionReason,
+    },
   });
 
   return leave;
@@ -160,17 +175,24 @@ export const cancelLeave = async ({ user, leaveId }) => {
     throw new BadRequestError("Only pending leave can be cancelled");
   }
 
-  const before = leave.toObject();
+  const before = {
+    status: leave.status,
+    decidedBy: leave.decidedBy,
+    decidedAt: leave.decidedAt,
+  };
 
   leave.status = "CANCELLED";
   await leave.save();
 
-  await logAudit({
+ // Audit log
+  await createAuditLog({
     actorId: user.id,
-    action: "LEAVE_CANCELLED",
-    resourceId: leave._id,
+    action: AUDIT_ACTIONS.LEAVE_CANCELLED,
+    targetId: leave._id,
     before,
-    after: leave.toObject()
+    after: {
+      status: leave.status,
+    },
   });
 
   return leave;
