@@ -16,8 +16,8 @@ export const register = async (req, res) => {
     });
 
     res.status(201).json(user);
-  } catch (err) {
-    handleError(res, err);
+  } catch (error) {
+    handelUnexpectedError(req, res, error, register.name);
   }
 };
 
@@ -36,8 +36,8 @@ export const assignManager = async (req, res) => {
       message: "Manager assigned successfully",
       employee
     });
-  } catch (err) {
-    handleError(res, err);
+  } catch (error) {
+    handelUnexpectedError(req, res, error, assignManager.name);
   }
 };
 
