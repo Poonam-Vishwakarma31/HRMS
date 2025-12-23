@@ -1,6 +1,9 @@
 import User from "../model/User.model.js";
 import { createToken } from "./token.service.js";
 import { ValidateFields } from "../../utils/validation.js";
+import { ROLE_PERMISSIONS } from "../../config/rolePermission.js";
+import { createAuditLog } from "../../infrastructure/Audit/audit.service.js";
+import { AUDIT_ACTIONS } from "../../infrastructure/Audit/audit.actions.js";
 
 // register service
 export const registerService = async ({
@@ -40,6 +43,21 @@ export const registerService = async ({
     password,
     role,
     managerId: role === "employee" ? managerId : null,
+    permissions: ROLE_PERMISSIONS[role] || [],
+
+  });
+
+    // Audit log: record user creation
+  await createAuditLog({
+    actorId: createdBy.id,
+    action: AUDIT_ACTIONS.USER_CREATED,
+    targetId: user._id,
+    meta: {
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      managerId: user.managerId || null,
+    },
   });
 
   return user;
@@ -69,9 +87,23 @@ export const assignManagerService = async ({ employeeId, managerId }) => {
   throw { status: 400, message: "Manager already assigned" };
 }
 
+ const before = { managerId: employee.managerId || null };
 
+ //Assign manager
   employee.managerId = managerId;
   await employee.save();
+
+   const after = { managerId: employee.managerId };
+
+   
+  // Audit log
+  await createAuditLog({
+    actorId: assignedBy.id, // who assigned the manager
+    action: AUDIT_ACTIONS.MANAGER_ASSIGNED,
+    targetId: employee._id,
+    before,
+    after,
+  });
 
   return employee;
 };
