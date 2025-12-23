@@ -4,12 +4,16 @@ export const createAuditLog = async ({
   action,
   actorId = null,
   targetId = null,
-  meta = {}
+  meta = {},
+  before= null,
+  after= null
 }) => {
   await AuditLog.create({
     action,
     actorId,
     targetId,
-    meta
+    meta,
+    before,
+    after
   });
 };
