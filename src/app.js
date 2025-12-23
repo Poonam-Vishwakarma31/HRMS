@@ -3,7 +3,8 @@ import authRouter from './modules/auth/auth.routes.js'
 import userRouter from './modules/users/user.route.js';
 import leaveRouter from './modules/leave/leave.routes.js';
 import dotenv from "dotenv";
-import {connectToDB} from './db/connection.js'
+import {connectToDB} from './db/connection.js';
+import { bootstrapAdmin } from './bootstrap/bootstrapAdmin.js';
 
 dotenv.config();
 
@@ -19,7 +20,8 @@ app.use("/api/leave",leaveRouter);
 
 async function run() {
     try {
-        await connectToDB()
+        await connectToDB();
+        await bootstrapAdmin();
         const PORT= process.env.PORT || " ";
         app.listen(PORT,()=>{
     console.log(`Server is running on localhost:5000`)})
