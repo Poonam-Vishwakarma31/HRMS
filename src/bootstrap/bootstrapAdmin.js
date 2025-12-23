@@ -1,4 +1,4 @@
-import User from "../modules/users/User.model.js";
+import User from "../modules/model/User.model.js";
 import { createAuditLog } from "../infrastructure/Audit/audit.service.js";
 import { AUDIT_ACTIONS } from "../infrastructure/Audit/audit.actions.js";
 
