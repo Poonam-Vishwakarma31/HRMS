@@ -65,6 +65,11 @@ export const assignManagerService = async ({ employeeId, managerId }) => {
     throw { status: 400, message: "Assigned user is not a manager" };
   }
 
+  if (employee.managerId && String(employee.managerId) === String(managerId)) {
+  throw { status: 400, message: "Manager already assigned" };
+}
+
+
   employee.managerId = managerId;
   await employee.save();
 
