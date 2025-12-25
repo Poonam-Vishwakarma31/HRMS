@@ -3,7 +3,7 @@ export const authorizeOwnership = (getResourceOwnerId) => {
   return async (req, res, next) => {
     try {
       if (!req.user || !req.user.id) {
-        return res.status(403).json({ message: "Access denied" });
+        return res.status(401).json({ message: "Access denied" });
       }
 
       // Admin bypass (intentional and explicit)
@@ -14,7 +14,7 @@ export const authorizeOwnership = (getResourceOwnerId) => {
       // Resolve resource owner dynamically
       const ownerId = await getResourceOwnerId(req);
 
-      if (!ownerId) {
+      if (ownerId== null) {
         return res.status(404).json({ message: "Resource not found" });
       }
 
