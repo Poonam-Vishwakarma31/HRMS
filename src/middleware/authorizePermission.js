@@ -6,12 +6,12 @@ export const authorizePermissions = (...requiredPermissions) => {
       return res.status(403).json({ message: "Access denied" });
     }
 
-    // Check all required permissions
-    const hasAllPermissions = requiredPermissions.some(permission =>
+    // Check  required permissions
+    const hasPermissions = requiredPermissions.some(permission =>
       req.user.permissions.includes(permission)
     );
 
-    if (!hasAllPermissions) {
+    if (!hasPermissions) {
       return res.status(403).json({ message: "Forbidden" });
     }
 
