@@ -1,6 +1,7 @@
 import Leave from "../model/leave.model.js";
 import { createAuditLog } from "../../infrastructure/Audit/audit.service.js";
 import { AUDIT_ACTIONS } from "../../infrastructure/Audit/audit.actions.js";
+import User from "../model/User.model.js";
 
 
 
@@ -17,9 +18,15 @@ import {
 export const createLeave = async ({ user, payload }) => {
   if (!user) throw new ForbiddenError("Unauthenticated");
 
+    const dbUser = await User.findById(user.id).select("managerId");
+
+  if (!dbUser || !dbUser.managerId) {
+    throw new Error("Manager not assigned to user");
+  }
+
   const leave = await Leave.create({
-    employeeId: user.id,
-    managerId: user.managerId,
+    employeeId: dbUser._id,
+    managerId: dbUser.managerId,
     type: payload.type,
     startDate: payload.startDate,
     endDate: payload.endDate,
