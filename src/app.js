@@ -22,7 +22,7 @@ async function run() {
     try {
         await connectToDB();
         await bootstrapAdmin();
-        const PORT= process.env.PORT || " ";
+        const PORT= process.env.PORT || 5000;
         app.listen(PORT,()=>{
     console.log(`Server is running on localhost:5000`)})
     } catch (error) {
