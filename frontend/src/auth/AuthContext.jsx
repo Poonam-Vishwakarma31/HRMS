@@ -9,6 +9,8 @@ export const AuthProvider = ({ children }) => {
   // derived state (DON'T store separately)
   const isAuthenticated = !!token;
   const role = user?.role ?? null;
+  const permissions = user?.permissions ?? [];
+
 
   // load from localStorage on first render
   useEffect(() => {
@@ -47,6 +49,7 @@ export const AuthProvider = ({ children }) => {
         user,
         token,
         role,
+        permissions,
         isAuthenticated,
         login,
         logout,
