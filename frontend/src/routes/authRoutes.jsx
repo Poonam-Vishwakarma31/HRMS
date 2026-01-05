@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "@/auth/authContext";
+import { useAuth } from "../auth/AuthContext.jsx";
 
 /**
  * 1. PROTECTED ROUTE
