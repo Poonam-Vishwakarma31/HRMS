@@ -6,14 +6,17 @@ import { useAuth } from "../auth/AuthContext.jsx";
  * → User must be authenticated
  */
 export const ProtectedRoute = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>; // or spinner
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
-
   return <Outlet />;
-};
+};;
 
 /**
  * 2. ROLE-BASED ROUTE
@@ -45,6 +48,5 @@ export const PermissionRoute = ({ requiredPermissions = [] }) => {
   if (!hasPermission) {
     return <Navigate to="/unauthorized" replace />;
   }
-
   return <Outlet />;
 };
