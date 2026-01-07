@@ -5,14 +5,12 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true); 
 
-  // derived state (DON'T store separately)
   const isAuthenticated = !!token;
   const role = user?.role ?? null;
   const permissions = user?.permissions ?? [];
 
-
-  // load from localStorage on first render
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
@@ -21,6 +19,8 @@ export const AuthProvider = ({ children }) => {
       setToken(storedToken);
       setUser(JSON.parse(storedUser));
     }
+
+    setLoading(false); 
   }, []);
 
   const login = ({ token, user }) => {
@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-
     setToken(null);
     setUser(null);
   };
@@ -51,6 +50,7 @@ export const AuthProvider = ({ children }) => {
         role,
         permissions,
         isAuthenticated,
+        loading, 
         login,
         logout,
       }}
