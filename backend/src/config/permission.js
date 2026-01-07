@@ -17,7 +17,7 @@ export const PERMISSIONS = {
   LEAVE_VIEW_ALL: "leave:view:all",
   LEAVE_APPROVE: "leave:approve",
   LEAVE_REJECT: "leave:reject",
-  LEAVE_CANCLE: "leave:cancle",
+  LEAVE_CANCEL: "leave:cancel",
 
   //SYSTEM / ADMIN 
   ROLE_ASSIGN: "role:assign",
