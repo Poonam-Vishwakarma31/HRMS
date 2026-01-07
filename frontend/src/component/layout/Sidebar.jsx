@@ -6,9 +6,7 @@ import { hasAnyPermission } from "../../utils/permission.js";
 const Sidebar = () => {
   const { user } = useAuth();
 
-  if (!user) return null; // prevent flicker
-  console.log("USER:", user);
-console.log("PERMISSIONS:", user.permissions);
+  if (!user) return null; // prevent rendering if user is not loaded
 
 
   return (
