@@ -44,10 +44,9 @@ export const registerService = async ({
     role,
     managerId: role === "employee" ? managerId : null,
     permissions: ROLE_PERMISSIONS[role] || [],
-
   });
 
-    // Audit log: record user creation
+  // Audit log: record user creation
   await createAuditLog({
     actorId: createdBy.id,
     action: AUDIT_ACTIONS.USER_CREATED,
@@ -84,18 +83,17 @@ export const assignManagerService = async ({ employeeId, managerId }) => {
   }
 
   if (employee.managerId && String(employee.managerId) === String(managerId)) {
-  throw { status: 400, message: "Manager already assigned" };
-}
+    throw { status: 400, message: "Manager already assigned" };
+  }
 
- const before = { managerId: employee.managerId || null };
+  const before = { managerId: employee.managerId || null };
 
- //Assign manager
+  //Assign manager
   employee.managerId = managerId;
   await employee.save();
 
-   const after = { managerId: employee.managerId };
+  const after = { managerId: employee.managerId };
 
-   
   // Audit log
   await createAuditLog({
     actorId: assignedBy.id, // who assigned the manager
@@ -107,7 +105,6 @@ export const assignManagerService = async ({ employeeId, managerId }) => {
 
   return employee;
 };
-
 
 // Login service
 export const loginService = async ({ email, password }) => {
@@ -125,6 +122,16 @@ export const loginService = async ({ email, password }) => {
     throw { status: 400, message: "Invalid email or password" };
   }
 
+  const permissions = ROLE_PERMISSIONS[user.role] || [];
   const token = createToken(user.id, user.email, user.role);
-  return { user, token };
+  return {
+    token,
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      permissions,
+    },
+  };
 };
