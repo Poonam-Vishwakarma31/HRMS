@@ -31,13 +31,13 @@ export const PERMISSIONS = {
  * @param {string[]} requiredPermissions - Array of permission strings
  * @returns {boolean}
  */
-export const hasPermissions = (user, requiredPermissions = []) => {
+export const hasAllPermissions = (user, permissions = []) => {
   if (!user || !Array.isArray(user.permissions)) return false;
-
-  return requiredPermissions.every((perm) =>
+  return permissions.every((perm) =>
     user.permissions.includes(perm)
   );
 };
+
 
 /**
  * Frontend helper: Check if user has AT LEAST ONE permission
@@ -53,39 +53,4 @@ export const hasAnyPermission = (user, permissions = []) => {
   );
 };
 
-/**
- * OPTIONAL: Role hints for frontend UI (not security-critical)
- * Useful for showing/hiding components based on role
- */
-export const ROLE_PERMISSIONS = {
-  admin: [
-    PERMISSIONS.EMPLOYEE_READ_ALL,
-    PERMISSIONS.EMPLOYEE_UPDATE_ALL,
-    PERMISSIONS.USER_CREATE,
-    PERMISSIONS.LEAVE_VIEW_ALL,
-    PERMISSIONS.LEAVE_APPROVE,
-    PERMISSIONS.LEAVE_REJECT,
-    PERMISSIONS.ROLE_ASSIGN,
-    PERMISSIONS.PERMISSION_ASSIGN
-  ],
-  HR: [
-    PERMISSIONS.EMPLOYEE_READ_ALL,
-    PERMISSIONS.USER_CREATE,
-    PERMISSIONS.LEAVE_VIEW_ALL,
-    PERMISSIONS.LEAVE_APPROVE,
-    PERMISSIONS.LEAVE_REJECT
-  ],
-  manager: [
-    PERMISSIONS.EMPLOYEE_READ_ALL,
-    PERMISSIONS.LEAVE_VIEW_ALL,
-    PERMISSIONS.LEAVE_APPROVE,
-    PERMISSIONS.LEAVE_REJECT
-  ],
-  employee: [
-    PERMISSIONS.EMPLOYEE_READ_SELF,
-    PERMISSIONS.EMPLOYEE_UPDATE_SELF,
-    PERMISSIONS.LEAVE_CREATE,
-    PERMISSIONS.LEAVE_VIEW_SELF,
-    PERMISSIONS.LEAVE_CANCEL
-  ]
-};
+
