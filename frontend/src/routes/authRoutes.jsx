@@ -41,7 +41,7 @@ export const PermissionRoute = ({ requiredPermissions = [] }) => {
 
   const userPermissions = user?.permissions || [];
 
-  const hasPermission = requiredPermissions.every((perm) =>
+  const hasPermission = requiredPermissions.some((perm) =>
     userPermissions.includes(perm)
   );
 
