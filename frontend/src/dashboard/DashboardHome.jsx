@@ -1,7 +1,7 @@
 // dashboard/DashboardHome.jsx
-import { useAuth } from "../../auth/AuthContext.jsx";
+import { useAuth } from "../auth/AuthContext.jsx";
 import { DASHBOARD_WIDGETS } from "./dashboard.Widgets.js";
-import { hasAnyPermission } from "../../utils/permission.js";
+import { hasAnyPermission } from "../utils/permission.js";
 
 const DashboardHome = () => {
   const { user } = useAuth();

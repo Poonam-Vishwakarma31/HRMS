@@ -1,11 +1,11 @@
 // dashboard/dashboard.widgets.js
-import { PERMISSIONS } from "../../utils/permission";
+import { PERMISSIONS } from "../utils/permission.js";
 
-import AdminStats from "./widgets/AdminStats";
-import TeamStats from "./widgets/TeamStats";
-import LeaveOverview from "./widgets/LeaveOverview";
-import MyLeaveWidget from "./widgets/MyLeaveWidget";
-import CreateUserWidget from "./widgets/CreateUserWidget";
+import AdminStats from "./Widgets/AdminStats.jsx";
+import TeamStats from "./Widgets/TeamStats.jsx";
+import LeaveOverview from "./Widgets/LeaveOverview.jsx";
+import MyLeaveWidget from "./Widgets/MyLeaveWidget.jsx";
+import CreateUserWidget from "./Widgets/CreateUserWidgets.jsx";
 
 export const DASHBOARD_WIDGETS = [
   {
