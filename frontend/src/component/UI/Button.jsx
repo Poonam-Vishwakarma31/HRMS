@@ -1,25 +1,12 @@
-const Button = ({
-  children,
-  variant = "primary",
-  ...props
-}) => {
-  const base =
-    "px-4 py-2 rounded font-medium transition";
+import { Children } from "react";
+import Can from "../Guard/Can.jsx";
 
-  const variants = {
-    primary: "bg-orange-700 text-white hover:bg-orange-800",
-    secondary: "bg-gray-200 hover:bg-gray-300",
-    danger: "bg-red-600 text-white hover:bg-red-700",
-  };
-
-  return (
-    <button
-      className={`${base} ${variants[variant]}`}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
-
-export default Button;
+const Button = ({Permissions, Children, ...props}) =>{
+  if(Permissions){
+    return (
+      <Can permission={Permissions}>
+        <button {...props}>{Children}</button>
+      </Can>
+    );
+  }  return <button {...props}>{Children}</button>;
+}
