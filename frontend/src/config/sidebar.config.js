@@ -14,15 +14,15 @@ export const SIDEBAR_ITEMS = [
     path: "/dashboard/profile",
     permissions: [
       PERMISSIONS.EMPLOYEE_READ_SELF,
-      PERMISSIONS.EMPLOYEE_READ_ALL,
+       PERMISSIONS.EMPLOYEE_UPDATE_SELF,
     ],
   },
 
   {
-    label: "Edit Profile",
-    path: "/dashboard/profile/edit",
+    label: "User List",
+    path: "/dashboard/users",
     permissions: [
-      PERMISSIONS.EMPLOYEE_UPDATE_SELF,
+      PERMISSIONS.EMPLOYEE_READ_ALL,
       PERMISSIONS.EMPLOYEE_UPDATE_ALL,
     ],
   },
