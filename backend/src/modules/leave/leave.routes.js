@@ -50,7 +50,7 @@ leaveRouter.patch(
 leaveRouter.patch(
     "/:id/cancle",
     verifyToken,
-    authorizePermissions(PERMISSIONS.LEAVE_CANCLE),
+    authorizePermissions(PERMISSIONS.LEAVE_CANCEL),
     cancelLeave
 );
 
