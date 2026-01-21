@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth",authRouter);
 app.use('/api/users',userRouter);
-app.use("/api/leave",leaveRouter);
+app.use("/api/leaves",leaveRouter);
 
 
 async function run() {
