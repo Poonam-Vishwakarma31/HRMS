@@ -20,3 +20,8 @@ export const updateUser = (userId, payload) => {
 export const getUsers = () => {
   return api.get("/users");
 };
+
+// Create User
+export const createUser = (data) =>
+  api.post("/users", data);
+
