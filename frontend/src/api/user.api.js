@@ -23,5 +23,12 @@ export const getUsers = () => {
 
 // Create User
 export const createUser = (data) =>
-  api.post("/users", data);
+  api.post("/users/register", data);
+
+export const assignManager = (data) =>
+  api.post("/users/assign-manager", data);
+
+export const getManagers = () =>
+  api.get("/users?role=manager");
+
 
