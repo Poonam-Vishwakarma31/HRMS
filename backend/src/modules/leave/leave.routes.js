@@ -48,7 +48,7 @@ leaveRouter.patch(
 // Cancle own leave- only employee
 
 leaveRouter.patch(
-    "/:id/cancle",
+    "/:id/cancel",
     verifyToken,
     authorizePermissions(PERMISSIONS.LEAVE_CANCEL),
     cancelLeave

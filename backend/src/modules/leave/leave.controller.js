@@ -23,7 +23,12 @@ export const getLeaves = async (req, res) => {
     const leaves = await leaveService.getLeaves({
       user: req.user
     });
-    res.json(leaves);
+      res.status(200).json({
+      success: true,
+      leaves
+    });
+    console.log(req.user.permissions);
+
   } catch (err) {
     handleError(res, err);
   }
