@@ -24,6 +24,18 @@ export const getMyProfile = async (req, res) => {
   }
 };
 
+export const getUserById = async (req, res) => {
+  try {
+    const user = await getUserByIdService(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ user });
+  } catch {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 export const updateUser = async (req, res) => {
   try {
     const updatedUser = await updateUserService(

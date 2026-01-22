@@ -5,7 +5,7 @@ import { authorizePermissions } from "../../middleware/authorizePermission.js";
 import { authorizeOwnership } from "../../middleware/authorize.ownership.js";
 import User from "../model/User.model.js";
 
-import { getAllUsers, getMyProfile, updateUser, deleteUser } from "./user.controller.js";
+import { getAllUsers, getMyProfile, getUserById ,updateUser, deleteUser } from "./user.controller.js";
 
 
 const userRouter = Router();
@@ -22,8 +22,18 @@ userRouter.get(
 userRouter.get(
   "/me",
   verifyToken,
+   authorizePermissions(PERMISSIONS.EMPLOYEE_READ_SELF),
   getMyProfile
 );
+
+// Get user by ID (self or admin)
+userRouter.get(
+  "/:id",
+  verifyToken,
+  authorizePermissions(PERMISSIONS.EMPLOYEE_READ_ALL),
+  getUserById
+);
+
 
 // Update user (self or admin)
 userRouter.put(
