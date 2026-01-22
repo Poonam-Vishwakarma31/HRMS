@@ -23,7 +23,7 @@ export const getUsers = () => {
 
 // Create User
 export const createUser = (data) =>
-  api.post("/users/register", data);
+  api.post("/auth/user/register", data);
 
 export const assignManager = (data) =>
   api.post("/users/assign-manager", data);
