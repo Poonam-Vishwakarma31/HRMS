@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import {connectToDB} from './db/connection.js';
 import { bootstrapAdmin } from './bootstrap/bootstrapAdmin.js';
 import cors from 'cors';
+import dashboardRouter from './modules/dashboard/dashboard.route.js';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth",authRouter);
 app.use('/api/users',userRouter);
 app.use("/api/leaves",leaveRouter);
+app.use("/api/dashboard", dashboardRouter)
 
 
 async function run() {
