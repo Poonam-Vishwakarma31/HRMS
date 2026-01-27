@@ -1,12 +1,17 @@
-import React from 'react'
-
-const TeamStats = () => {
+// dashboard/widgets/TeamStats.jsx
+const TeamStats = ({ stats }) => {
   return (
     <div className="widget">
-      <h3>Team Stats</h3>
-      <p>Total Team Members: 25</p>
-    </div>
-  )
-}
+      <h3>My Team</h3>
 
-export default TeamStats
+      <ul>
+        <li>Team Members: <b>{stats.teamMembers}</b></li>
+        <li>Pending Team Leaves: <b>{stats.teamPendingLeaves}</b></li>
+        <li>Approved Team Leaves: <b>{stats.teamApprovedLeaves}</b></li>
+      </ul>
+    </div>
+  );
+};
+
+export default TeamStats;
+

@@ -1,13 +1,18 @@
-import React from 'react'
-
-const LeaveOverview = () => {
+// dashboard/widgets/LeaveOverview.jsx
+const LeaveOverview = ({ stats }) => {
   return (
     <div className="widget">
       <h3>Leave Overview</h3>
-      <p>Pending Leaves: 10</p>
-      <p>Approved Leaves: 25</p>
-    </div>
-  )
-}
 
-export default LeaveOverview
+      <ul>
+        <li>Total Leaves: <b>{stats.totalLeaves}</b></li>
+        <li>Pending: <b>{stats.pendingLeaves}</b></li>
+        <li>Approved: <b>{stats.approvedLeaves}</b></li>
+        <li>Rejected: <b>{stats.rejectedLeaves}</b></li>
+      </ul>
+    </div>
+  );
+};
+
+export default LeaveOverview;
+
