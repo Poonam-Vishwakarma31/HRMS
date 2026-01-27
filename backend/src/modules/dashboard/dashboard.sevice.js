@@ -15,7 +15,7 @@ export const getDashboardStats = async ({ user }) => {
       employeeId: user.id,
       status: "PENDING",
     });
-
+    
     return {
       totalLeaves,
       approvedLeaves,
@@ -47,18 +47,18 @@ export const getDashboardStats = async ({ user }) => {
   }
 
   // ADMIN / HR
-  const totalEmployees = await User.countDocuments({
-    role: { $ne: "admin" },
-  });
+const totalEmployees = await User.countDocuments({ role: "employee" });
+const totalManagers = await User.countDocuments({ role: "manager" });
 
-  const totalLeaves = await Leave.countDocuments();
-  const approvedLeaves = await Leave.countDocuments({ status: "APPROVED" });
-  const pendingLeaves = await Leave.countDocuments({ status: "PENDING" });
+const totalLeaves = await Leave.countDocuments();
+const approvedLeaves = await Leave.countDocuments({ status: "APPROVED" });
+const pendingLeaves = await Leave.countDocuments({ status: "PENDING" });
 
-  return {
-    totalEmployees,
-    totalLeaves,
-    approvedLeaves,
-    pendingLeaves,
-  };
+return {
+  totalEmployees,
+  totalManagers,
+  totalLeaves,
+  approvedLeaves,
+  pendingLeaves,
+};
 };
