@@ -56,7 +56,7 @@ export const SIDEBAR_ITEMS = [
   // ---------------- ADMIN / SYSTEM ----------------
   {
     label: "Admin Panel",
-    path: "/dashboard/admin",
+    path: "/dashboard",
     permissions: [
       PERMISSIONS.ROLE_ASSIGN,
       PERMISSIONS.PERMISSION_ASSIGN,
